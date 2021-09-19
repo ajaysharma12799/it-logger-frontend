@@ -10,3 +10,40 @@ a {
 a:hover {
     color: #fff;
 }
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+}
+.navbar-form-element {
+    display: flex;
+}
+.navbar-form {
+    display: flex;
+}
+.log-button, 
+.add-button, 
+.user-button {
+    margin-left: 5px;
+}
+@media screen and (max-width: 991px) {
+    .navbar-form-element {
+        display: flex;
+        flex-direction: column;
+        margin-top: 2%;
+    }
+    .navbar-form {
+        display: flex;
+        flex-direction: column;
+    }
+    .navbar-form > button {
+        margin-top: 1%;
+    }
+    .log-button, 
+    .add-button, 
+    .user-button {
+        margin-top: 1%;
+        margin-left: 0px;
+    }
+}

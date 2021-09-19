@@ -21,20 +21,16 @@ const Navbar = ({searchLog}) => {
                         {clicked ? <i className="fas fa-times"></i> : <i className="fas fa-bars"></i>}
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <div className="d-flex ms-auto me-1">
-                            <form className="d-flex">
+                        <div className="navbar-form-element ms-auto me-1">
+                            <form className="navbar-form">
                                 <input className="form-control me-2" value={text} onChange={e => setText(e.target.value)} placeholder="Search" aria-label="Search"/>
                                 <button className="btn btn-outline-primary" onClick={e => handleSubmit(e)}>Search</button>
                             </form>
-                            <div className="log-button btn btn-success ms-2">
-                                <Link to="/AddLog">Add Logs</Link>
-                            </div>
-                            <div className="add-button btn btn-success ms-2">
-                                <Link to="/AddTech">Add Technician</Link>
-                            </div>
-                            <div className="user-button btn btn-success ms-2">
-                                <Link to="/SeeTechnicians">See All Technicians</Link>
-                            </div>
+                            <React.Fragment>
+                                <Link className="log-button btn btn-success" to="/AddLog">Add Logs</Link>
+                                <Link className="add-button btn btn-success" to="/AddTech">Add Technician</Link>
+                                <Link className="user-button btn btn-success" to="/SeeTechnicians">See All Technicians</Link>
+                            </React.Fragment>
                         </div>
                     </div>
                 </div>

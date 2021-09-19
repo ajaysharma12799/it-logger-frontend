@@ -19,7 +19,8 @@ const AddTechForm = ({addTech}) => {
     return (
         <React.Fragment>
             <Navbar />
-            <form className="mt-5 w-50 container">
+            <div className="w-100">
+            <form className="mt-5 w-75 container">
                 <div className="mb-3 text-center">
                     <h4 className="display-6">Add Technician</h4>
                 </div>
@@ -31,6 +32,7 @@ const AddTechForm = ({addTech}) => {
                 </div>
                 <button className="btn btn-primary w-100" onClick={e => handleSubmit(e)}>Add Technician</button>
             </form>
+            </div>
         </React.Fragment>
     )
 }
