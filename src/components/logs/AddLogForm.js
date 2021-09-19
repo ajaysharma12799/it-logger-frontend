@@ -1,16 +1,18 @@
 import React, {useState} from 'react'
 import { toast } from 'react-toastify';
 import Navbar from '../layout/Navbar'
-
-
-const AddLogForm = () => {
+import { connect } from 'react-redux';
+import { addLog } from '../../actions/logActions';
+import { PropTypes } from 'prop-types';
+const AddLogForm = ({addLog}) => {
     const [message, setMessage] = useState("");
     const [attention, setAttention] = useState(false);
     const [technician, setTechnician] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(message, technician, attention);
+        const newLog = {message, attention, technician, date: new Date()};
+        addLog(newLog);
         toast.success("System Log Added Successfully");
     }
 
@@ -44,4 +46,8 @@ const AddLogForm = () => {
     )
 }
 
-export default AddLogForm
+AddLogForm.prototype = {
+    addLog: PropTypes.func.isRequired,
+}
+
+export default connect(null, {addLog})(AddLogForm)

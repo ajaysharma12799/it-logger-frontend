@@ -1,16 +1,29 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { toast } from 'react-toastify';
 import Navbar from '../layout/Navbar'
-
-
-const UpdateLogForm = () => {
+import { connect } from 'react-redux';
+import { updateLog } from '../../actions/logActions';
+import { PropTypes } from 'prop-types';
+const UpdateLogForm = ({current, updateLog}) => {
     const [message, setMessage] = useState("");
     const [attention, setAttention] = useState(false);
     const [technician, setTechnician] = useState("");
 
+    useEffect(() => {
+        if(current) {
+            setMessage(current.message);
+            setAttention(current.attention);
+            setTechnician(current.technician);
+        }
+    }, [current]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(message, technician, attention);
+        const updatedLog = {
+            id: current.id,
+            message, attention, technician, date: new Date()
+        }
+        updateLog(updatedLog);
         toast.success("System Log Updated Successfully");
     }
 
@@ -31,7 +44,7 @@ const UpdateLogForm = () => {
                     </label>
                 </div>
                 <div className="mb-3">
-                   <select className="form-select" name={technician} onChange={e => setTechnician(e.target.value)}>
+                   <select className="form-select" name={technician} value={technician} onChange={e => setTechnician(e.target.value)}>
                         <option selected disabled>Select Technician</option>
                         <option value="Ajay">Ajay</option>
                         <option value="Tanu">Tanu</option>
@@ -44,4 +57,13 @@ const UpdateLogForm = () => {
     )
 }
 
-export default UpdateLogForm
+UpdateLogForm.prototype = {
+    current: PropTypes.object.isRequired,
+    updateLog: PropTypes.func.isRequired,
+}
+
+const mapStateToProp = (state) => ({
+    current: state.log.current
+});
+
+export default connect(mapStateToProp, {updateLog})(UpdateLogForm)
