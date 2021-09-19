@@ -1,8 +1,16 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-
-const Navbar = () => {
+import { connect } from 'react-redux';
+import { searchLog } from '../../actions/logActions';
+import { PropTypes } from 'prop-types';
+const Navbar = ({searchLog}) => {
     const [clicked, setClicked] = useState(false);
+    const [text, setText] = useState("");
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        searchLog(text);
+    }
 
     return (
         <React.Fragment>
@@ -15,14 +23,17 @@ const Navbar = () => {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <div className="d-flex ms-auto me-1">
                             <form className="d-flex">
-                                <input className="form-control me-2" placeholder="Search" aria-label="Search"/>
-                                <button className="btn btn-outline-primary">Search</button>
+                                <input className="form-control me-2" value={text} onChange={e => setText(e.target.value)} placeholder="Search" aria-label="Search"/>
+                                <button className="btn btn-outline-primary" onClick={e => handleSubmit(e)}>Search</button>
                             </form>
-                            <div className="floating-add-button btn btn-success ms-2">
-                                <Link to="/AddTech"><i className="fas fa-plus text-white"></i></Link>
+                            <div className="log-button btn btn-success ms-2">
+                                <Link to="/AddLog">Add Logs</Link>
                             </div>
-                            <div className="floating-user-button btn btn-success ms-2">
-                                <Link to="/SeeTechnicians"><i className="fas fa-user-alt text-white"></i></Link>
+                            <div className="add-button btn btn-success ms-2">
+                                <Link to="/AddTech">Add Technician</Link>
+                            </div>
+                            <div className="user-button btn btn-success ms-2">
+                                <Link to="/SeeTechnicians">See All Technicians</Link>
                             </div>
                         </div>
                     </div>
@@ -32,4 +43,8 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+Navbar.prototype = {
+    searchLog: PropTypes.func.isRequired,
+}
+
+export default connect(null, {searchLog})(Navbar)
