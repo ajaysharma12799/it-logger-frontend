@@ -1,13 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { toast } from 'react-toastify';
 import Navbar from '../layout/Navbar'
 import { connect } from 'react-redux';
 import { addLog } from '../../actions/logActions';
 import { PropTypes } from 'prop-types';
-const AddLogForm = ({addLog}) => {
+import { getTechs } from '../../actions/techAction';
+const AddLogForm = ({addLog, getTechs, tech: {techs}}) => {
     const [message, setMessage] = useState("");
     const [attention, setAttention] = useState(false);
     const [technician, setTechnician] = useState("");
+
+    useEffect(() => {
+        getTechs();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -33,11 +38,11 @@ const AddLogForm = ({addLog}) => {
                     </label>
                 </div>
                 <div className="mb-3">
-                   <select className="form-select" name={technician} onChange={e => setTechnician(e.target.value)}>
-                        <option selected disabled>Select Technician</option>
-                        <option value="Ajay">Ajay</option>
-                        <option value="Tanu">Tanu</option>
-                        <option value="Chau">Chau</option>
+                   <select className="form-select" name="technician" value={technician} onChange={e => setTechnician(e.target.value)}>
+                        <option value="" disabled>Select Technician</option>
+                        {techs !== null && techs.map((t => (
+                            <option value={`${t.firstName} ${t.lastName}`} key={t.id}>{t.firstName} {t.lastName}</option>
+                        )))}
                     </select>
                 </div>
                 <button className="btn btn-primary w-100" onClick={e => handleSubmit(e)}>Enter Log</button>
@@ -48,6 +53,12 @@ const AddLogForm = ({addLog}) => {
 
 AddLogForm.prototype = {
     addLog: PropTypes.func.isRequired,
+    tech: PropTypes.object.isRequired,
+    getTechs: PropTypes.func.isRequired,
 }
 
-export default connect(null, {addLog})(AddLogForm)
+const mapStateToProp = (state) => ({
+    tech: state.tech
+});
+
+export default connect(mapStateToProp, {addLog, getTechs})(AddLogForm)

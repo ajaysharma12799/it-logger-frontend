@@ -4,7 +4,8 @@ import Navbar from '../layout/Navbar'
 import { connect } from 'react-redux';
 import { updateLog } from '../../actions/logActions';
 import { PropTypes } from 'prop-types';
-const UpdateLogForm = ({current, updateLog}) => {
+import { getTechs } from '../../actions/techAction';
+const UpdateLogForm = ({current, updateLog, tech: {techs}, getTechs}) => {
     const [message, setMessage] = useState("");
     const [attention, setAttention] = useState(false);
     const [technician, setTechnician] = useState("");
@@ -15,6 +16,7 @@ const UpdateLogForm = ({current, updateLog}) => {
             setAttention(current.attention);
             setTechnician(current.technician);
         }
+        getTechs();
     }, [current]);
 
     const handleSubmit = (e) => {
@@ -45,10 +47,10 @@ const UpdateLogForm = ({current, updateLog}) => {
                 </div>
                 <div className="mb-3">
                    <select className="form-select" name={technician} value={technician} onChange={e => setTechnician(e.target.value)}>
-                        <option selected disabled>Select Technician</option>
-                        <option value="Ajay">Ajay</option>
-                        <option value="Tanu">Tanu</option>
-                        <option value="Chau">Chau</option>
+                        <option value="" disabled>Select Technician</option>
+                        {techs !== null && techs.map((t => (
+                            <option value={`${t.firstName} ${t.lastName}`} key={t.id}>{t.firstName} {t.lastName}</option>
+                        )))}
                     </select>
                 </div>
                 <button className="btn btn-primary w-100" onClick={e => handleSubmit(e)}>Update Log</button>
@@ -60,10 +62,13 @@ const UpdateLogForm = ({current, updateLog}) => {
 UpdateLogForm.prototype = {
     current: PropTypes.object.isRequired,
     updateLog: PropTypes.func.isRequired,
+    tech: PropTypes.object.isRequired,
+    getTechs: PropTypes.func.isRequired,
 }
 
 const mapStateToProp = (state) => ({
-    current: state.log.current
+    current: state.log.current,
+    tech: state.tech
 });
 
-export default connect(mapStateToProp, {updateLog})(UpdateLogForm)
+export default connect(mapStateToProp, {updateLog, getTechs})(UpdateLogForm)

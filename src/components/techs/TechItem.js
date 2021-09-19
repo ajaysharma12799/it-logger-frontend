@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
+import { deleteTech } from '../../actions/techAction';
+import { toast } from 'react-toastify';
 
-const TechItem = ({tech}) => {
-    const {firstName, lastName} = tech;
+const TechItem = ({tech, deleteTech}) => {
+    const {firstName, lastName, id} = tech;
     return (
         <li className="list-group-item d-flex justify-content-between align-items-start">
             <div className="ms-2 me-auto">
@@ -12,7 +15,8 @@ const TechItem = ({tech}) => {
             </div>
             <div className="ms-1">
                 <button className="btn btn-danger" onClick={e => {
-                    console.log("Delete Clicked");
+                    deleteTech(id);
+                    toast.success("Technician Deleted Successfully");
                 }}><i className="fas fa-trash"></i></button>
             </div>
         </li>
@@ -21,6 +25,7 @@ const TechItem = ({tech}) => {
 
 TechItem.propTypes = {
     tech: PropTypes.object.isRequired,
+    deleteTech: PropTypes.func.isRequired,
 }
 
-export default TechItem
+export default connect(null, {deleteTech})(TechItem);

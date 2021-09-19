@@ -1,15 +1,18 @@
 import React, {useState} from 'react'
 import { toast } from 'react-toastify';
 import Navbar from '../layout/Navbar'
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
+import { addTech } from '../../actions/techAction';
 
-
-const AddTechForm = () => {
+const AddTechForm = ({addTech}) => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(firstName, lastName);
+        const newTech = {firstName, lastName};
+        addTech(newTech);
         toast.success("Technician Added Successfully");
     }
 
@@ -32,4 +35,8 @@ const AddTechForm = () => {
     )
 }
 
-export default AddTechForm
+AddTechForm.propTypes = {
+    addTech: PropTypes.func.isRequired,
+}
+
+export default connect(null, {addTech})(AddTechForm)

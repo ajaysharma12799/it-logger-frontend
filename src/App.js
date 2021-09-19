@@ -8,11 +8,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import AddTechForm from './components/techs/AddTechForm';
 import UpdateTechForm from './components/techs/UpdateTechForm';
 import AllTech from './components/techs/AllTech';
+import { Provider } from "react-redux";
 import "./App.css";
+import Store from './Store';
 
 const App = () => {
   return (
     <React.Fragment>
+      <Provider store={Store}>
       <Router>
         <ToastContainer />
         <Switch>
@@ -24,6 +27,7 @@ const App = () => {
           <Route path="/SeeTechnicians" exact component={AllTech} />
         </Switch>
       </Router>
+      </Provider>
     </React.Fragment>
   )
 }

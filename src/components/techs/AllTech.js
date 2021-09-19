@@ -1,25 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import Preloader from '../layout/Preloader';
 import TechItem from './TechItem';
 import Navbar from '../layout/Navbar';
+import { connect } from 'react-redux';
+import { getTechs } from '../../actions/techAction';
+import { PropTypes } from 'prop-types';
 
-const AllTech = () => {
-    const [techs, setTechs] = useState([]);
-    const [loading, setLoading] = useState(false);
+const AllTech = ({tech: {techs, loading}, getTechs}) => {
     
     useEffect(() => {
         getTechs();
     }, []);
 
-    const getTechs = async () => {
-        setLoading(true);
-        const response = await fetch("/techs");
-        const data = await response.json();
-        setTechs(data);
-        setLoading(false);
-    }
-
-    if(loading) {
+    if(loading || techs === null) {
         return <Preloader />
     }
 
@@ -29,7 +22,11 @@ const AllTech = () => {
         <div className="container mt-3">
             <ul className="list-group">
             {
-                !loading && techs.length === 0 ? (<Preloader />) : (
+                !loading && techs.length === 0 ? (
+                    <div>
+                        <h4 className="display-5 text-center">No Technician</h4>
+                    </div>
+                ) : (
                     techs.map((tech, index) => (
                         <TechItem key={index} tech={tech} />
                     ))
@@ -41,4 +38,13 @@ const AllTech = () => {
     )
 }
 
-export default AllTech
+AllTech.prototype = {
+    tech: PropTypes.object.isRequired,
+    getTechs: PropTypes.func.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+    tech: state.tech
+});
+
+export default connect(mapStateToProps, {getTechs})(AllTech)
