@@ -17,6 +17,7 @@ const UpdateLogForm = ({current, updateLog, tech: {techs}, getTechs}) => {
             setTechnician(current.technician);
         }
         getTechs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [current]);
 
     const handleSubmit = (e) => {
@@ -50,7 +51,7 @@ const UpdateLogForm = ({current, updateLog, tech: {techs}, getTechs}) => {
                    <select className="form-select" name={technician} value={technician} onChange={e => setTechnician(e.target.value)}>
                         <option value="" disabled>Select Technician</option>
                         {techs !== null && techs.map((t => (
-                            <option value={`${t.firstName} ${t.lastName}`} key={t.id}>{t.firstName} {t.lastName}</option>
+                            <option value={`${t.firstName} ${t.lastName}`} key={t._id}>{t.firstName} {t.lastName}</option>
                         )))}
                     </select>
                 </div>

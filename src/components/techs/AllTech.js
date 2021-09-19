@@ -10,7 +10,8 @@ const AllTech = ({tech: {techs, loading}, getTechs}) => {
     
     useEffect(() => {
         getTechs();
-    }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [techs]);
 
     if(loading || techs === null) {
         return <Preloader />
@@ -20,6 +21,7 @@ const AllTech = ({tech: {techs, loading}, getTechs}) => {
         <React.Fragment>
         <Navbar/>
         <div className="container mt-3">
+            <h4 className="display-5 text-center">All Technicians</h4>
             <ul className="list-group">
             {
                 !loading && techs.length === 0 ? (

@@ -1,4 +1,5 @@
 import {ADD_TECH, GET_TECH, DELETE_TECH, SET_LOADING, TECH_ERROR} from "./types";
+import { API } from '../API';
 
 export const setLoading = () => {
     return {
@@ -9,7 +10,7 @@ export const setLoading = () => {
 export const getTechs = () => async (dispatch) => { // Get Techs from Server
     try {
         setLoading();
-        const response = await fetch("/techs");
+        const response = await fetch(`${API}/technicians/allTechnicians`);
         const data = await response.json();
         dispatch({
             type: GET_TECH,
@@ -27,7 +28,7 @@ export const getTechs = () => async (dispatch) => { // Get Techs from Server
 export const addTech = (tech) => async (dispatch) => {
     try {
         setLoading();
-        const response = await fetch("/techs", {
+        const response = await fetch(`${API}/technicians/addTechnician`, {
             method: "POST",
             body: JSON.stringify(tech),
             headers: {
@@ -51,7 +52,7 @@ export const addTech = (tech) => async (dispatch) => {
 export const deleteTech = (id) => async (dispatch) => {
     try {
         setLoading();
-        await fetch(`/techs/${id}`, {
+        await fetch(`${API}/technicians/deleteTechnician/${id}`, {
             method: "DELETE"
         });
         dispatch({

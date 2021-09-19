@@ -1,4 +1,5 @@
 import {GET_LOGS, SET_LOADING, LOGS_ERROR, ADD_LOGS, DELETE_LOGS, UPDATE_LOGS, SET_CURRENT, CLEAR_CURRENT, SEARCH_LOGS} from "./types";
+import { API } from '../API';
 
 // export const getLogs = () => {
 //     return async (dispatch) => {
