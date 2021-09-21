@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { toast } from 'react-toastify';
-import Navbar from '../layout/Navbar'
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { addTech } from '../../actions/techAction';
@@ -19,7 +18,6 @@ const AddTechForm = ({addTech}) => {
 
     return (
         <React.Fragment>
-            <Navbar />
             <div className="w-100">
             <form className="mt-5 w-75 container">
                 <div className="mb-3 text-center">

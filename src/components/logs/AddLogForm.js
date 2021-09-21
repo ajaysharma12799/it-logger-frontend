@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { toast } from 'react-toastify';
-import Navbar from '../layout/Navbar'
 import { connect } from 'react-redux';
 import { addLog } from '../../actions/logActions';
 import { PropTypes } from 'prop-types';
@@ -24,7 +23,6 @@ const AddLogForm = ({addLog, getTechs, tech: {techs}}) => {
 
     return (
         <React.Fragment>
-            <Navbar />
             <div className="w-100">
             <form className="mt-5 w-75 container">
                 <div className="mb-3 text-center">
@@ -43,7 +41,7 @@ const AddLogForm = ({addLog, getTechs, tech: {techs}}) => {
                    <select className="form-select" name="technician" value={technician} onChange={e => setTechnician(e.target.value)}>
                         <option value="" disabled>Select Technician</option>
                         {techs !== null && techs.map((t => (
-                            <option value={`${t.firstName} ${t.lastName}`} key={t._id}>{t.firstName} {t.lastName}</option>
+                            <option value={t._id} key={t._id}>{t.firstName} {t.lastName}</option>
                         )))}
                     </select>
                 </div>

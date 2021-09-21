@@ -15,8 +15,9 @@ import { API } from '../API';
 
 export const addLog = (log) => async (dispatch) => { // Add Log to Server
     try {
+        console.log(JSON.stringify(log));
         setLoading();
-        const response = await fetch("/logs", {
+        const response = await fetch(`${API}/logs/addLog`, {
             method: "POST",
             body: JSON.stringify(log),
             headers: {
@@ -40,7 +41,7 @@ export const addLog = (log) => async (dispatch) => { // Add Log to Server
 export const getLogs = () => async (dispatch) => { // Get Logs from Server
     try {
         setLoading();
-        const response = await fetch("/logs");
+        const response = await fetch(`${API}/logs/allLogs`);
         const data = await response.json();
         dispatch({
             type: GET_LOGS,
@@ -58,7 +59,7 @@ export const getLogs = () => async (dispatch) => { // Get Logs from Server
 export const deleteLog = (id) => async (dispatch) => { // Delete Log from Server
     try {
         setLoading();
-        await fetch(`/logs/${id}`, {
+        await fetch(`${API}/logs/deleteLog/${id}`, {
             method: "DELETE"
         });
         dispatch({
@@ -90,7 +91,7 @@ export const clearCurrentLog = () => { // Clear Current Log
 export const updateLog = (log) => async (dispatch) => { // Update Log to Server
     try {
         setLoading();
-        const response = await fetch(`/logs/${log.id}`, {
+        const response = await fetch(`${API}/logs/updateLog/${log._id}`, {
             method: "PUT",
             body: JSON.stringify(log),
             headers: {

@@ -10,12 +10,14 @@ import AllTech from './components/techs/AllTech';
 import { Provider } from "react-redux";
 import "./App.css";
 import Store from './Store';
+import Navbar from './components/layout/Navbar';
 
 const App = () => {
   return (
     <React.Fragment>
       <Provider store={Store}>
       <Router>
+        <Navbar />
         <ToastContainer />
         <Switch>
           <Route path="/" exact component={Home} />
