@@ -1,9 +1,28 @@
-import {ADD_TECH, GET_TECH, DELETE_TECH, SET_LOADING, TECH_ERROR} from "./types";
+import {ADD_TECH, GET_TECH, DELETE_TECH, SET_LOADING, TECH_ERROR, GET_SINGLE_TECH} from "./types";
 import { API } from '../API';
 
 export const setLoading = () => {
     return {
         type: SET_LOADING,
+    }
+}
+
+export const getSingleTech = (id) => async (dispatch) => {
+    try {
+        setLoading();
+        const response = await fetch(`${API}/technicians/getTechnician/${id}`);
+        const data = await response.json();
+        console.log(data);
+        dispatch({
+            type: GET_SINGLE_TECH,
+            payload: data
+        });
+    } catch (error) {
+        console.error(`${error.message}, error coming from getSingleTech`);
+        dispatch({
+            type: TECH_ERROR,
+            payload: error.message
+        });
     }
 }
 

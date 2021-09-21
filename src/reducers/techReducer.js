@@ -1,7 +1,8 @@
-import {ADD_TECH, DELETE_TECH, GET_TECH, TECH_ERROR, SET_LOADING} from "../actions/types";
+import {ADD_TECH, DELETE_TECH, GET_TECH, TECH_ERROR, SET_LOADING, GET_SINGLE_TECH} from "../actions/types";
 
 const initialState = {
     techs: null,
+    singleTechnician: null,
     loading: false,
     error: null
 };
@@ -13,6 +14,9 @@ export default (state = initialState, action) => {
     switch(type) {
         case SET_LOADING:
             return { ...state, loading: true }
+        
+        case GET_SINGLE_TECH:
+            return {...state, singleTechnician: payload, loading: false};
 
         case GET_TECH:
             return {...state, techs: payload, loading: false};

@@ -1,14 +1,21 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deleteLog, setCurrentLog } from '../../actions/logActions';
 import { toast } from 'react-toastify';
+import { getSingleTech } from '../../actions/techAction';
 
-
-const LogItem = ({log, deleteLog, setCurrentLog}) => {
+const LogItem = ({log, deleteLog, setCurrentLog, getSingleTech, tech: {singleTechnician}}) => {
     const {message, attention, date, technician, _id} = log;
+    const technicianName = singleTechnician === null ? technician : `${singleTechnician.firstName} ${singleTechnician.lastName}`;
+
+    useEffect(() => {
+        getSingleTech(technician);
+        // eslint-disable-next-line
+    }, []);
+
     return (
         <div className={attention ? "accordion accordion-flush text-danger mt-2" : "accordion accordion-flush text-primary mt-2"} id="accordionFlush">
             <div className={attention ? "accordion-item" : "accordion-item"}>
@@ -19,7 +26,7 @@ const LogItem = ({log, deleteLog, setCurrentLog}) => {
                 </h2>
                 <div id={`flush-collapse${_id}`} className="accordion-collapse collapse" aria-labelledby={`flush-heading${_id}`} data-bs-parent="#accordionFlush">
                     <div className="accordion-body">
-                        Technician : {technician}
+                        Technician : {technicianName}
                         <br/>
                         Priority : {attention ? "High" : "Basic"}
                         <br/>
@@ -43,6 +50,11 @@ LogItem.propTypes = {
     log: PropTypes.object.isRequired,
     deleteLog: PropTypes.func.isRequired,
     setCurrentLog: PropTypes.func.isRequired,
+    getSingleTech: PropTypes.func.isRequired,
 }
 
-export default connect(null, {deleteLog, setCurrentLog})(LogItem)
+const mapStateToProp = (state) => ({
+    tech: state.tech
+})
+
+export default connect(mapStateToProp, {deleteLog, setCurrentLog, getSingleTech})(LogItem)
